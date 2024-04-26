@@ -7,3 +7,7 @@ Repositório para o trabalho da videoaula da disciplina de Técnicas de Programa
 * Hudson Cauã Costa Lima - 211055512
 * Luiz Henrique Silva de Andrade - 211010430
 * Sofia Dy La Fuente Monteiro - 211055530
+
+
+Para fazer o build do projeto é necessário:
+1- 
