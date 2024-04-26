@@ -12,3 +12,8 @@ Repositório para o trabalho da videoaula da disciplina de Técnicas de Programa
 Para fazer o build do projeto é necessário:
 
 1- 
+
+
+### Link para a VideoAula:
+https://www.youtube.com/playlist?list=PLnnHWJXFVTXCxvUxIx7X7RZnpkiP-7867
+
