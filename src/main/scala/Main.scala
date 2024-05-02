@@ -1,3 +1,9 @@
+
+import scala.concurrent.{Future, Await}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
+import scala.io.Source
+
 object Main {
   def main(args: Array[String]): Unit = {
 
@@ -15,10 +21,6 @@ object Main {
     val fileContents = scala.io.Source.fromFile(fileName).getLines().toList
     val stopWords = scala.io.Source.fromFile(stopWordsFile).getLines().flatMap(_.split(",")).toSet
 
-    // Fecha os arquivos
-    scala.io.Source.fromFile(fileName).close()
-    scala.io.Source.fromFile(stopWordsFile).close()
-
     // Função para limpar as Strings
     def cleanWord(word: String): String = {
       word.replaceAll("[^a-zA-Z]", "")
@@ -29,27 +31,33 @@ object Main {
       data.grouped(chunkSize).toList
     }
 
-    // Processamento dos chunks
+    // Processamento paralelo dos chunks
     val chunkSize = 200
     val chunks = splitIntoChunks(fileContents, chunkSize)
-    val wordCounts = chunks.flatMap { chunk =>
 
-        // Primeiro Map: Divide o conteúdo do arquivo em palavras
-        val wordsMap = chunk.flatMap(_.split("\\s+"))
-          .filter(_.nonEmpty) //Garante que nenhum espaço vazio será contado como palavra
-          .map(word => (cleanWord(word.toLowerCase), 1))
-          .filter { case (word, _) => !stopWords.contains(word) }
+    // Usaremos Future.sequence para coletar os resultados paralelos
+    val futureWordCounts = Future.sequence(chunks.map { chunk => Future {
 
-        // Segundo Map: Agrupa as palavras e conta as ocorrências de cada uma
-        wordsMap.groupBy(_._1)
-          .view.mapValues(_.map(_._2).sum)
-      }
+      // Primeiro Map: Divide o conteúdo do arquivo em palavras
+      val wordsMap = chunk.par.flatMap(_.split("\\s+")) // Utilizando paralelismo com .par
+        .filter(_.nonEmpty) // Garante que nenhum espaço vazio será contado como palavra
+        .map(word => (cleanWord(word.toLowerCase), 1))
+        .filter { case (word, _) => !stopWords.contains(word) }
+
+      // Segundo Map: Agrupa as palavras e conta as ocorrências de cada uma
+      wordsMap.groupBy(_._1)
+        .view.mapValues(_.map(_._2).sum)
+    }})
+
+    // Espera todos os Futures terminarem e extrai os resultados
+    val wordCounts = Await.result(futureWordCounts, Duration.Inf)
+      .flatten // Achata a lista de listas
 
       // Redução: Calcula o total de ocorrências de cada palavra
       .groupBy(_._1)
       .view.mapValues(_.map(_._2).sum)
       .toList
-      .sortBy(-_._2)  // Organiza de forma decescente
+      .sortBy(-_._2)  // Organiza de forma decrescente
       .take(25)   // Seleciona as 25 palavras mais frequentes para printar
 
     // Imprime as contagens de palavra
