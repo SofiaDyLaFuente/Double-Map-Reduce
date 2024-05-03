@@ -11,7 +11,20 @@ Repositório para o trabalho da videoaula da disciplina de Técnicas de Programa
 
 Para fazer o build do projeto é necessário:
 
-1- 
+1- Favor certifique-se de que todas as dependências estão instaladas corretamente. 
+
+2- Ferramentas utilizadas:
+   - Windows 11
+   - IntelliJ Comunity Edition
+
+3- recomendada a instalação das seguintes versões ou acima:
+
+Scala 2.13.8
+java 1.8.0_312
+sbt 1.3.13
+
+4 - Favor mudar os caminhos de arquivos na variável "lista"
+
 
 
 ### Link para a VideoAula:
