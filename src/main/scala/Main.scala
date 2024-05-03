@@ -39,7 +39,7 @@ object Main {
     val futureWordCounts = Future.sequence(chunks.map { chunk => Future {
 
       // Primeiro Map: Divide o conteúdo do arquivo em palavras
-      val wordsMap = chunk.par.flatMap(_.split("\\s+")) // Utilizando paralelismo com .par
+      val wordsMap = chunk.flatMap(_.split("\\s+")) // Utilizando paralelismo com .par
         .filter(_.nonEmpty) // Garante que nenhum espaço vazio será contado como palavra
         .map(word => (cleanWord(word.toLowerCase), 1))
         .filter { case (word, _) => !stopWords.contains(word) }
