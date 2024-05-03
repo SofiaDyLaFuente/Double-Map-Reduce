@@ -9,7 +9,7 @@ Repositório para o trabalho da videoaula da disciplina de Técnicas de Programa
 * Sofia Dy La Fuente Monteiro - 211055530
 
 
-Para fazer o build do projeto é necessário:
+####Para fazer o build do projeto é necessário:
 
 1- Favor certifique-se de que todas as dependências estão instaladas corretamente. 
 
