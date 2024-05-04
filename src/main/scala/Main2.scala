@@ -54,9 +54,8 @@ object Main1 {
     }
   }
 
-  val lista = Array("C:/Users/Sofia/Documents/Sofia/Faculdade/6_Semestre_2024_1/TP2/Trabalho_VideoAula/WordCount/WordCount/src/main/scala/pride-and-prejudice.txt",
-    "C:/Users/Sofia/Documents/Sofia/Faculdade/6_Semestre_2024_1/TP2/Trabalho_VideoAula/WordCount/WordCount/src/main/scala/stop_words.txt")
-
+  val lista = Array("caminho_do_arquivo.txt",
+    "caminho_arquivo_stop_words.txt")
   main(lista)
   
 }
